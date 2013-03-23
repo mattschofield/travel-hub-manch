@@ -6,7 +6,8 @@ lib-cov
 *.out
 *.pid
 *.gz
-
+node_modules/
+.sass_cache/
 pids
 logs
 results
