@@ -207,5 +207,12 @@ function draw() {
   }
 };
 
+var socket = io.connect('http://localhost');
+socket.on('updateBusInfo', function () {
+  draw();
+});
+socket.on('updateCarParkInfo', function() {
+  draw();
+})
 
 google.maps.event.addDomListener(window, 'load', draw);
