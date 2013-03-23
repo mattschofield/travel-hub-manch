@@ -267,13 +267,13 @@ function draw() {
     });
   }
   
-  ["green", "blue", "red"].forEach(function(colour, ci, colours){
+  ["red", "blue", "red"].forEach(function(colour, ci, colours){
     url = "http://localhost:3000/stops/"+(ci+1); 
     $.get(url)
     .done(function(data) {
       data.forEach(function(el,i,arr) {
         var elMarker = new google.maps.Marker({
-              icon: "http://maps.google.com/mapfiles/ms/icons/"+colour+"-dot.png",
+              icon: "http://localhost:3000/images/"+colour+"/bus.png",
               position: new google.maps.LatLng(el.Latitude, el.Longitude),
               map: map,
               title: el.CommonName
@@ -316,7 +316,7 @@ function draw() {
                             });
                             
         var cpInfoOptions = {
-          content: "<div style=\"text-align:center;font-family:sans-serif;\"><b>"+cp.Name+"</b>" +
+          content: "<div class=\"infobox\" style=\"text-align:center;font-family:sans-serif;\"><b>"+cp.Name+"</b>" +
                    "<div style=\"background-color:"+colour+";width:80%;height:1em;margin:0;margin-left:10%;\"></div>" +
                    "<b>Spaces: </b>"+ cp.SpacesNow +
                    "<br /><em>30 mins: "+ cp.PredictedSpaces30Mins +
