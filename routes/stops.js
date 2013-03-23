@@ -5,22 +5,22 @@
 var request = require('request');
 var config = require('../config/config');
 var async = require('async');
-var stops = [];
 
 exports.listAll = function(req, res){  
+  var stops = [];
   async.parallel([
     function(callback) {
-      getStops(1, function(err) {
+      getStops(1, stops, function(err) {
         if (!err) { callback(null, 1); }
       })
     },
     function(callback) {
-      getStops(2, function(err) {
+      getStops(2, stops, function(err) {
         if (!err) { callback(null, 2); }
       })
     },
     function(callback) {
-      getStops(3, function(err) {
+      getStops(3, stops, function(err) {
         if (!err) { callback(null, 3); }
       })
     }
@@ -31,10 +31,11 @@ exports.listAll = function(req, res){
 };
 
 exports.listByRoute = function(req, res){
+  var stops = [];
   console.log(req.params.id);
   async.parallel([
     function(callback) {
-      getStops(req.params.id, function(err) {
+      getStops(req.params.id, stops, function(err) {
         if (!err) { callback(null, req.params.id); }
       })
     }
@@ -44,7 +45,7 @@ exports.listByRoute = function(req, res){
   });
 };
 
-function getStops(routeId, callback){
+function getStops(routeId, stops, callback){
   var options = {
     url: config.apiAddr + '/api/routes/'+routeId+'/stops',
     headers: {

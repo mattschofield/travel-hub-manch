@@ -4,32 +4,20 @@ $(document).ready(function(){
   });
 });
 
-function drawRoute(map, arr) {
-  var origin = destination = null;
-  var waypoints = [];
-  for (var i = 0; i < arr.length; i++) {
-    if (i==0) { origin = arr[i].location; }
-    else if (i==arr.length-1) { destination = arr[i].location; }
-    else {
-      waypoints.push(arr[i]);
-    }
-  };
-
-  var request = {
-    origin: origin,
-    destination: destination,
-    waypoints: waypoints,
+function drawRoute(map, segment) {
+  var routeOptions = {
+    origin: segment.shift().location,
+    destination: segment.pop().location,
+    waypoints: segment,
     travelMode: google.maps.DirectionsTravelMode.DRIVING
   };
-  
-  console.log("ORIGIN: "+origin);
-  console.log("DESTINATION: "+destination);
 
-  var rendererOptions = { map: map, suppressMarkers: false };
+  var rendererOptions = { map: map, 
+                          suppressMarkers: false 
+                        };
   directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
   directionsService = new google.maps.DirectionsService();
-  directionsService.route(request, function(response, status) {
-    // var duration = response.routes[0].legs[0].duration.text;
+  directionsService.route(routeOptions, function(response, status) {
     console.log(status);
     console.log(response);
     if (status == google.maps.DirectionsStatus.OK) {
@@ -39,7 +27,6 @@ function drawRoute(map, arr) {
       console.log('failed to get directions');
     }
   })
-  waypoints = [];
 }
 
 function draw() {
@@ -77,36 +64,26 @@ function draw() {
 
   $.get("http://localhost:3000/stops/1")
   .done(function(data) {
-    var origin = null,
-        destination = null,
-        waypoints = [],
-        allpoints = [];
+    var waypoints = [];
 
     data.forEach(function(el,i,arr) {
-      allpoints.push({
+      waypoints.push({
         location: new google.maps.LatLng(el.Latitude, el.Longitude)
       });
     })
 
-    var lastDestination = null;
-    var tmp = []
-    while (allpoints.length!=0) {
-      while (tmp.length != 10 && allpoints.length != 0) {
-        if (tmp.length == 9) {
-          tmp.push(allpoints[0]);
+    var segment = [];
+    while (waypoints.length > 0) {
+      while (segment.length < 10 && waypoints.length > 0) {
+        if (segment.length < 9) {
+          segment.push(waypoints.shift());
         } else {
-          tmp.push(allpoints.shift());
+          segment.push(waypoints[0]);
         }
       }
-      console.log("TMP: "+tmp.length);
-      console.log("AP: "+allpoints.length);
-
-      drawRoute(map, tmp);
-      // while (temp.length) { tmp.shift(); }
-      tmp = [];
+      drawRoute(map, segment);
+      segment = [];
     }
-    // allpoints = [];
-
   });
 
   if ($('#carparks').is(':checked')){
