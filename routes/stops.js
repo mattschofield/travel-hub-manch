@@ -30,17 +30,6 @@ exports.list = function(req, res){
   });
 };
 
-function buildStopTasks(){
-  var tasks = [];
-  for (var i=1; i<4; i++){
-    tasks.push(function(callback) {
-      getStops(i, function(err) {
-        if (!err) { callback(null, i); }
-      })
-    })
-  }
-}
-
 function getStops(routeId, callback){
   var options = {
     url: config.apiAddr + '/api/routes/'+routeId+'/stops',
