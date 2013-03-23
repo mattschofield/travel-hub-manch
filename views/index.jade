@@ -5,4 +5,14 @@ block content
     .col-1-3
       h1.logo Travel  Hub
       h2.sub-heading Manchester
+      .controls
+        label Car Parks
+          input.left#carparks(type="checkbox", checked)
+        br
+        label Buses
+          input.left#buses(type="checkbox", checked)
+        br
+        input#refresh(type="button", value="Refresh")
+      
+         
     .col-2-3#map_canvas
