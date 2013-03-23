@@ -1,12 +1,4 @@
-// Determine support for Geolocation
-if (navigator.geolocation) {
-  // Locate position
-  navigator.geolocation.getCurrentPosition(displayPosition, errorFunction);
-} else {
-  alert('It seems like Geolocation, which is required for this page, is not enabled in your browser. Please use a browser which supports it.');
-}
-// Success callback function
-function displayPosition(pos) {
+function draw(pos) {
   
   //Load Google Map
   var latlng = new google.maps.LatLng(53.477333 , -2.247412);
@@ -38,8 +30,5 @@ function displayPosition(pos) {
     })
   });
 }
-// Error callback function
-function errorFunction(pos) {
-  alert('Error!');
-}
 
+google.maps.event.addDomListener(window, 'load', draw);
