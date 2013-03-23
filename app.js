@@ -13,6 +13,7 @@ var express = require('express')
   , path = require('path');
 
 var app = express();
+var server = http.createServer(app);
 var config = require('./config/config');
 
 app.configure(function(){
@@ -38,7 +39,14 @@ app.get('/stops', stops.listAll);
 app.get('/stops/:id', stops.listByRoute);
 app.get('/carparks', carparks.list);
 
-http.createServer(app).listen(app.get('port'), function(){
+server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
+});
+
+var io = require("socket.io").listen(server);
+io.set('log level', 1);
+
+io.sockets.on('connection', function (socket) {
+  require('./routes/sockets')(socket);
 });
 
