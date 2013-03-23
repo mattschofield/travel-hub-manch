@@ -34,7 +34,8 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/buses', buses.list);
-app.get('/stops', stops.list);
+app.get('/stops', stops.listAll);
+app.get('/stops/:id', stops.listByRoute);
 app.get('/carparks', carparks.list);
 
 http.createServer(app).listen(app.get('port'), function(){
