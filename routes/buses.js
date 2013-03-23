@@ -5,24 +5,23 @@
 var request = require('request');
 var config = require('../config/config');
 var async = require('async');
-var moment = require('moment');
 var _ = require('underscore');
-var buses = [];
 
 exports.list = function(req, res){
+  var buses = [];
   async.parallel([
     function(callback) {
-      getbus(1, function(err) {
+      getbus(1, buses, function(err) {
         if (!err) { callback(null, 1); }
       })
     },
     function(callback) {
-      getbus(2, function(err) {
+      getbus(2, buses, function(err) {
         if (!err) { callback(null, 2); }
       })
     },
     function(callback) {
-      getbus(3, function(err) {
+      getbus(3, buses, function(err) {
         if (!err) { callback(null, 3); }
       })
     }
@@ -31,13 +30,11 @@ exports.list = function(req, res){
     var filteredBuses = _.filter(buses, function(bus){
       return true;//!bus.IsParked
     });
-    buses = [];
-    res.json(filteredBuses);
-    
+    res.json(buses);
   });
 };
 
-function getbus(id, callback){
+function getbus(id, buses, callback){
   var options = {
     url: config.apiAddr + '/api/routes/MET'+id+'/buses',
     headers: {

@@ -5,18 +5,20 @@ $(document).ready(function(){
 });
 
 function drawRoute(map, segment) {
+  console.log(segment.length);
   var routeOptions = {
     origin: segment.shift().location,
     destination: segment.pop().location,
     waypoints: segment,
-    travelMode: google.maps.DirectionsTravelMode.DRIVING
+    travelMode: google.maps.DirectionsTravelMode.WALKING
   };
 
   var rendererOptions = { map: map, 
-                          suppressMarkers: false 
+                          suppressMarkers: true,
+                          preserveViewport: true,                   
                         };
-  directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
-  directionsService = new google.maps.DirectionsService();
+  var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+  var directionsService = new google.maps.DirectionsService();
   directionsService.route(routeOptions, function(response, status) {
     console.log(status);
     console.log(response);
@@ -67,10 +69,17 @@ function draw() {
     var waypoints = [];
 
     data.forEach(function(el,i,arr) {
+      var elMarker = new google.maps.Marker({
+            icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+            position: new google.maps.LatLng(el.Latitude, el.Longitude),
+            map: map,
+            title: el.seq + " " + el.CommonName
+      })
       waypoints.push({
         location: new google.maps.LatLng(el.Latitude, el.Longitude)
       });
     })
+    
 
     var segment = [];
     while (waypoints.length > 0) {

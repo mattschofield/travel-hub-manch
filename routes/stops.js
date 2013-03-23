@@ -26,7 +26,7 @@ exports.listAll = function(req, res){
     }
   ], function(err, results){
     res.type('application/json');
-    res.json(stops);
+    res.json(stops.reverse());
   });
 };
 
@@ -41,7 +41,7 @@ exports.listByRoute = function(req, res){
     }
   ], function(err, results){
     res.type('application/json');
-    res.json(stops);
+    res.json(stops.reverse());
   });
 };
 
@@ -57,7 +57,6 @@ function getStops(routeId, stops, callback){
     if (!error && response.statusCode == 200) {
       JSON.parse(body).forEach(function(el, i, arr){
         el.route = routeId;
-        el.seq = i;
         stops.push(el);      
       });
       callback(null);
