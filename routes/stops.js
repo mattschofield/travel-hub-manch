@@ -30,17 +30,6 @@ exports.list = function(req, res){
   });
 };
 
-function buildStopTasks(){
-  var tasks = [];
-  for (var i=1; i<4; i++){
-    tasks.push(function(callback) {
-      getStops(i, function(err) {
-        if (!err) { callback(null, i); }
-      })
-    })
-  }
-}
-
 function getStops(routeId, callback){
   var options = {
     url: config.apiAddr + '/api/routes/'+routeId+'/stops',
@@ -52,6 +41,8 @@ function getStops(routeId, callback){
   request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       JSON.parse(body).forEach(function(el, i, arr){
+        el.route = routeId;
+        el.seq = i;
         stops.push(el);      
       });
       callback(null);
