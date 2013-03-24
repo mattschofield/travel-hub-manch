@@ -8,7 +8,7 @@ $(document).ready(function(){
   var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
   var app = {
     map: map,
-    stops: [],
+    stops: {},
     markers: [],
     polys: []
   }
@@ -28,12 +28,12 @@ $(document).ready(function(){
       .remove()
       .end()
     
-    for (var i = 0; i < app.stops.length; i++){
-      if (app.stops[i].route == $(this).val()){
-      var stop = app.stops[i]
+    for (var stopCode in app.stops){
+      if (app.stops[stopCode].route == $(this).val()){
+        var stop = app.stops[stopCode]
         $(".stop-finder")
         .append($("<option />")
-        .val(stop.AtcoCode)
+        .val(stopCode)
         .text(stop.title));
       }
     }
@@ -54,21 +54,16 @@ $(document).ready(function(){
 });
 
 function activateDepartureBoard(evt, stop, app){
-  stopCode = (stop == null) ? $(evt.target).val() : stop;
-  console.log(stopCode);
+  chosenStopCode = stop || $(evt.target).val();
+  console.log(chosenStopCode);
   $(".approaching-buses").addClass("active");
-    for (var i = 0; i < app.stops.length; i++){
-      if (app.stops[i].atcoCode == stopCode){
-        var stop = app.stops[i];
-        stop.setAnimation(google.maps.Animation.BOUNCE);
-        app.map.panTo(stop.getPosition());
-        app.map.setZoom(16);
-        app.map.panBy(0, 200);
-        break;
-      }
-    }
-    // get stuff from bobop API
-    // populate .approaching-buses
+  var stop = app.stops[chosenStopCode];
+  stop.setAnimation(google.maps.Animation.BOUNCE);
+  app.map.panTo(stop.getPosition());
+  app.map.setZoom(16);
+  app.map.panBy(0, 200);
+  // get stuff from bobop API
+  // populate .approaching-buses
 }
 
 var polys = {
@@ -260,12 +255,12 @@ function clear(app){
   for (var i = 0; i < app.polys.length; i++){
     app.polys[i].setMap(null);
   }
-  for (var i = 0; i < app.stops.length; i++){
-    app.stops[i].setMap(null);
+  for (var stopCode in app.stops){
+    app.stops[stopCode].setMap(null);
   }
   app.markers = [];
   app.polys = [];
-  app.stops = [];
+  app.stops = {};
 }
 
 function drawBuses(app){
@@ -277,7 +272,7 @@ function drawBuses(app){
 
       var colour = null;
       if (bus.Route == "MET1") { colour = "red"; }
-      if (bus.Route == "MET2") { colour = "green"; }
+      if (bus.Route == "MET2") { colour = "blue"; }
       if (bus.Route == "MET3") { colour = "blue"; }
 
       var busMarker = new google.maps.Marker({
@@ -298,20 +293,21 @@ function drawStops(app){
     $.get(url)
     .done(function(data) {
       data.forEach(function(stop,i,arr) {
-        var stopMarker = new google.maps.Marker({
-              icon: "http://localhost:3000/images/"+colour+"/busstop.png",
-              position: new google.maps.LatLng(stop.Latitude, stop.Longitude),
-              map: app.map,
-              title: stop.CommonName,
-              atcoCode: stop.AtcoCode,
-              route: ci+1
-        })
-        app.stops.push(stopMarker);
+        if (!app.stops.hasOwnProperty(stop.AtcoCode)){
+          var stopMarker = new google.maps.Marker({
+                icon: "http://localhost:3000/images/"+colour+"/busstop.png",
+                position: new google.maps.LatLng(stop.Latitude, stop.Longitude),
+                map: app.map,
+                title: stop.CommonName,
+                route: ci+1
+          })
+          app.stops[stop.AtcoCode] = stopMarker;
+          google.maps.event.addListener(stopMarker, 'click', function(evt){
+            activateDepartureBoard(null, stop.AtcoCode, app);
+          });
+        }
        
-        google.maps.event.addListener(stopMarker, 'click', function(evt){
-          //stopInfoWindow.open(app.map, stopMarker);
-          activateDepartureBoard(null, stop.AtcoCode, app);
-        });
+        
       })
     })
   });
