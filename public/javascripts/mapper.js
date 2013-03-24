@@ -17,6 +17,10 @@ $(document).ready(function(){
     draw(app);
   });
   
+  $("#hide-button").click(function(evt) {
+    $(".approaching-buses").removeClass("active");
+  })
+
   $(".route-finder").change(function(evt) {
     $(".stop-finder")
       .find('option')
@@ -32,6 +36,14 @@ $(document).ready(function(){
       })
     });
   });
+
+  $(".stop-finder").change(function(evt) {
+    $(".approaching-buses").addClass("active");
+
+    // animate current marker
+    // get stuff from bobop API
+    // populate .approaching-buses
+  })
 
   var socket = io.connect('http://localhost');
   socket.on('updateBusInfo', function () {

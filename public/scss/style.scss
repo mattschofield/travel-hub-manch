@@ -36,6 +36,13 @@ body {
   .col-2-3 {
     width: 66.66%;
   }
+  .col-1-8 {
+    width: 12.5%;
+  }
+  .col-7-8 {
+    width: 87.5%;
+  }
+
 }
 
 button {
@@ -97,4 +104,59 @@ button {
 
 .infobox {
   overflow: hidden;
+}
+
+.finder {
+  > select {
+    -webkit-appearance: none;
+  }
+
+  .route-finder {
+    width: 20%;
+  }
+  .stop-finder {
+    width: 20%;
+  }
+}
+
+
+.approaching-buses {
+  background-color: transparent;
+  position: absolute;
+  width: 66.66%;
+  height: 300px;
+  left: -9999px;
+  top: -9999px;
+
+  &.active {
+    background-color: white;
+    box-shadow: -2px 0px 10px 1px #888;
+    top: 450px;
+    left: 33.33%;
+  }
+
+  .hide-button {
+    font-family: sans-serif;
+    font-size: 55px;
+    color: #CCC;
+    font-weight: 100;
+    height: 100%;
+    position: relative;
+
+    &:after {
+      content: "<";
+      position: absolute;
+      top: 120px;
+      left: 40px;
+    }
+
+    &:hover, &:focus {
+      background-color: #CCC;
+      color: #888;
+    }
+  }
+  .buses-listing {
+    height: 100%;
+    padding-top: 120px;
+  }
 }
