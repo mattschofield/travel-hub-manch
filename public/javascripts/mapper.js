@@ -1,17 +1,42 @@
 $(document).ready(function(){
-  $("#carparks, #buses, #refresh").click(function(evt){
-    draw();
+  //Load Google Map
+  var latlng = new google.maps.LatLng(53.477333 , -2.247412);
+  var myOptions = {
+    zoom: 15,
+    center: latlng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+  var app = {
+    map: map,
+    markers: [],
+    polys: []
+  }
+  
+  $("#redraw").click(function(evt){
+    clear(app);
+    draw(app);
   });
+  $("#clear").click(function(evt){
+    clear(app);
+  });
+  
+  var socket = io.connect('http://localhost');
+  socket.on('updateBusInfo', function () {
+    draw(app);
+  });
+  socket.on('updateCarParkInfo', function() {
+    draw(app);
+  })
+  draw(app);
 });
 
-
-  var polys = {
-  21916:[],
+var polys = {
+21916:[],
 21927:[],
 21940:[],
 21919:[],
 21920:[],
-
 21906: [new google.maps.LatLng(53.48894560782739,-2.243255954235792),
         new google.maps.LatLng(53.48927116099835,-2.241764646023512),
         new google.maps.LatLng(53.48888177357927,-2.2412711195647717),
@@ -129,144 +154,101 @@ $(document).ready(function(){
         new google.maps.LatLng(53.4798450664523,-2.2385588195174932),
         new google.maps.LatLng(53.47966629196711,-2.238220861181617),
         new google.maps.LatLng(53.480119611516415,-2.2375556733459234)],
-    21938: [
-      new google.maps.LatLng(53.48239890542354,-2.2305248491466045),
-      new google.maps.LatLng(53.48277717974917,-2.229460012167692),
-      new google.maps.LatLng(53.48251701675657,-2.2289530746638775),
-      new google.maps.LatLng(53.482161085660735,-2.2295243851840496),
-      new google.maps.LatLng(53.48186261199138,-2.2292320244014263),
-      new google.maps.LatLng(53.481525829019496,-2.2295082919299603),
-      new google.maps.LatLng(53.481889746048104,-2.230165433138609)
-    ],
-    21913: [
-      new google.maps.LatLng(53.48101665916571,-2.2315868362784386),
-      new google.maps.LatLng(53.48118904337409,-2.2309860214591026),
-      new google.maps.LatLng(53.480464386522385,-2.230353020131588),
-      new google.maps.LatLng(53.48019942079477,-2.2305461391806602),
-      new google.maps.LatLng(53.47996637728109,-2.23129715770483),
-      new google.maps.LatLng(53.47980356529967,-2.231227420270443),
-      new google.maps.LatLng(53.479576904442055,-2.231747768819332),
-      new google.maps.LatLng(53.48030796117245,-2.2323914989829063),
-      new google.maps.LatLng(53.480639965309834,-2.2313347086310387)
-    ],
-    21933: [
-      new google.maps.LatLng(53.47918423558339,-2.231946252286434),
-      new google.maps.LatLng(53.479082077235844,-2.2322895750403404),
-      new google.maps.LatLng(53.47811475319126,-2.2312703356146812),
-      new google.maps.LatLng(53.47771249313604,-2.2302457317709923),
-      new google.maps.LatLng(53.4771697552718,-2.2279175743460655),
-      new google.maps.LatLng(53.477275110811966,-2.2277727350592613),
-      new google.maps.LatLng(53.4775847907337,-2.228931449353695),
-      new google.maps.LatLng(53.477792306942305,-2.2292425855994225),
-      new google.maps.LatLng(53.478140293383476,-2.23080363124609),
-      new google.maps.LatLng(53.47907888478352,-2.231828235089779)
-    ],
-    21931: [
-      new google.maps.LatLng(53.478204143796745,-2.2331639751791954),
-      new google.maps.LatLng(53.47703566602414,-2.23329808562994),
-      new google.maps.LatLng(53.47733257736,-2.232203744351864),
-      new google.maps.LatLng(53.47803813252237,-2.2326060757040977)
-    ],
-    21909: [
-      new google.maps.LatLng(53.47455493851098,-2.236632239073515),
-      new google.maps.LatLng(53.47489177681731,-2.2352401725947857),
-      new google.maps.LatLng(53.47457728805486,-2.2350443713366985),
-      new google.maps.LatLng(53.47426120055434,-2.236457895487547)
-    ],
-    21939: [
-      new google.maps.LatLng(53.48006534112137,-2.234826944768429),
-      new google.maps.LatLng(53.480314345891884,-2.2341885790228844),
-      new google.maps.LatLng(53.4800270325654,-2.2338398918509483),
-      new google.maps.LatLng(53.479755679303864,-2.234467528760433)
-    ],
-    21925: [
-      new google.maps.LatLng(53.47899907339732,-2.2359853237867355),
-      new google.maps.LatLng(53.47941409096605,-2.2353415936231613),
-      new google.maps.LatLng(53.4790565376105,-2.2348587960004807),
-      new google.maps.LatLng(53.47860320670283,-2.2355132550001144)
-    ],
-    21911: [
-      new google.maps.LatLng(53.47819935501907,-2.237383257597685),
-      new google.maps.LatLng(53.4776949340785,-2.2381906025111675),
-      new google.maps.LatLng(53.47734375140195,-2.237630020827055),
-      new google.maps.LatLng(53.47787371687007,-2.2367904894053936)
-    ],
-    21935: [
-      new google.maps.LatLng(53.477680567571475,-2.2395798191428185),
-      new google.maps.LatLng(53.47778592184334,-2.2393276914954185),
-      new google.maps.LatLng(53.477457087947045,-2.2387751564383507),
-      new google.maps.LatLng(53.47763906430164,-2.238415740430355),
-      new google.maps.LatLng(53.477281495987825,-2.2377290949225426),
-      new google.maps.LatLng(53.47679302726081,-2.238517664372921),
-      new google.maps.LatLng(53.477217644186126,-2.2391023859381676)
-    ],
-    21929: [
-      new google.maps.LatLng(53.47558939077813,-2.2397300228476524),
-      new google.maps.LatLng(53.47570432836234,-2.2393008694052696),
-      new google.maps.LatLng(53.47540421290432,-2.2390111908316612),
-      new google.maps.LatLng(53.47525734711948,-2.2394349798560143)
-    ]
+21938: [new google.maps.LatLng(53.48239890542354,-2.2305248491466045),
+        new google.maps.LatLng(53.48277717974917,-2.229460012167692),
+        new google.maps.LatLng(53.48251701675657,-2.2289530746638775),
+        new google.maps.LatLng(53.482161085660735,-2.2295243851840496),
+        new google.maps.LatLng(53.48186261199138,-2.2292320244014263),
+        new google.maps.LatLng(53.481525829019496,-2.2295082919299603),
+        new google.maps.LatLng(53.481889746048104,-2.230165433138609)],
+21913: [new google.maps.LatLng(53.48101665916571,-2.2315868362784386),
+        new google.maps.LatLng(53.48118904337409,-2.2309860214591026),
+        new google.maps.LatLng(53.480464386522385,-2.230353020131588),
+        new google.maps.LatLng(53.48019942079477,-2.2305461391806602),
+        new google.maps.LatLng(53.47996637728109,-2.23129715770483),
+        new google.maps.LatLng(53.47980356529967,-2.231227420270443),
+        new google.maps.LatLng(53.479576904442055,-2.231747768819332),
+        new google.maps.LatLng(53.48030796117245,-2.2323914989829063),
+        new google.maps.LatLng(53.480639965309834,-2.2313347086310387)],
+21933: [new google.maps.LatLng(53.47918423558339,-2.231946252286434),
+        new google.maps.LatLng(53.479082077235844,-2.2322895750403404),
+        new google.maps.LatLng(53.47811475319126,-2.2312703356146812),
+        new google.maps.LatLng(53.47771249313604,-2.2302457317709923),
+        new google.maps.LatLng(53.4771697552718,-2.2279175743460655),
+        new google.maps.LatLng(53.477275110811966,-2.2277727350592613),
+        new google.maps.LatLng(53.4775847907337,-2.228931449353695),
+        new google.maps.LatLng(53.477792306942305,-2.2292425855994225),
+        new google.maps.LatLng(53.478140293383476,-2.23080363124609),
+        new google.maps.LatLng(53.47907888478352,-2.231828235089779)],
+21931: [new google.maps.LatLng(53.478204143796745,-2.2331639751791954),
+        new google.maps.LatLng(53.47703566602414,-2.23329808562994),
+        new google.maps.LatLng(53.47733257736,-2.232203744351864),
+        new google.maps.LatLng(53.47803813252237,-2.2326060757040977)],
+21909: [new google.maps.LatLng(53.47455493851098,-2.236632239073515),
+        new google.maps.LatLng(53.47489177681731,-2.2352401725947857),
+        new google.maps.LatLng(53.47457728805486,-2.2350443713366985),
+        new google.maps.LatLng(53.47426120055434,-2.236457895487547)],
+21939: [new google.maps.LatLng(53.48006534112137,-2.234826944768429),
+        new google.maps.LatLng(53.480314345891884,-2.2341885790228844),
+        new google.maps.LatLng(53.4800270325654,-2.2338398918509483),
+        new google.maps.LatLng(53.479755679303864,-2.234467528760433)],
+21925: [new google.maps.LatLng(53.47899907339732,-2.2359853237867355),
+        new google.maps.LatLng(53.47941409096605,-2.2353415936231613),
+        new google.maps.LatLng(53.4790565376105,-2.2348587960004807),
+        new google.maps.LatLng(53.47860320670283,-2.2355132550001144)],
+21911: [new google.maps.LatLng(53.47819935501907,-2.237383257597685),
+        new google.maps.LatLng(53.4776949340785,-2.2381906025111675),
+        new google.maps.LatLng(53.47734375140195,-2.237630020827055),
+        new google.maps.LatLng(53.47787371687007,-2.2367904894053936)],
+21935: [new google.maps.LatLng(53.477680567571475,-2.2395798191428185),
+        new google.maps.LatLng(53.47778592184334,-2.2393276914954185),
+        new google.maps.LatLng(53.477457087947045,-2.2387751564383507),
+        new google.maps.LatLng(53.47763906430164,-2.238415740430355),
+        new google.maps.LatLng(53.477281495987825,-2.2377290949225426),
+        new google.maps.LatLng(53.47679302726081,-2.238517664372921),
+        new google.maps.LatLng(53.477217644186126,-2.2391023859381676)],
+21929: [new google.maps.LatLng(53.47558939077813,-2.2397300228476524),
+        new google.maps.LatLng(53.47570432836234,-2.2393008694052696),
+        new google.maps.LatLng(53.47540421290432,-2.2390111908316612),
+        new google.maps.LatLng(53.47525734711948,-2.2394349798560143)]
+};
+
+function clear(app){
+  console.log("clearing!");
+  for (var i = 0; i < app.markers.length; i++){
+    app.markers[i].setMap(null);
   }
-
-
-function drawRoute(map, segment) {
-  console.log(segment.length);
-  var routeOptions = {
-    origin: segment.shift().location,
-    destination: segment.pop().location,
-    waypoints: segment,
-    travelMode: google.maps.DirectionsTravelMode.WALKING
-  };
-  var rendererOptions = { map: map, 
-                          suppressMarkers: true,
-                          preserveViewport: true,                   
-                        };
-  var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
-  var directionsService = new google.maps.DirectionsService();
-  directionsService.route(routeOptions, function(response, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
-      console.log("Route should be plotted");
-    } else {
-      console.log('failed to get directions');
-    }
-  })
+  for (var i = 0; i < app.polys.length; i++){
+    app.polys[i].setMap(null);
+  }
+  app.markers = app.polys = [];
 }
 
-function draw() {
-  //Load Google Map
-  var latlng = new google.maps.LatLng(53.477333 , -2.247412);
-  var myOptions = {
-    zoom: 15,
-    center: latlng,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
-  var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-  
+function drawBuses(app){
+  $.get("http://localhost:3000/buses")
+  .done(function(data) {
+    data.forEach(function(el,i,arr) {
+      var bus = el;
+      var busLatLon = new google.maps.LatLng(bus.Latitude, bus.Longitude);
 
-  if ($('#buses').is(':checked')){
-    $.get("http://localhost:3000/buses")
-    .done(function(data) {
-      data.forEach(function(el,i,arr) {
-        var bus = el;
-        var busLatLon = new google.maps.LatLng(bus.Latitude, bus.Longitude);
+      var colour = null;
+      if (bus.Route == "MET1") { colour = "red"; }
+      if (bus.Route == "MET2") { colour = "green"; }
+      if (bus.Route == "MET3") { colour = "blue"; }
 
-        var colour = null;
-        if (bus.Route == "MET1") { colour = "red"; }
-        if (bus.Route == "MET2") { colour = "green"; }
-        if (bus.Route == "MET3") { colour = "blue"; }
-
-        var busMarker = new google.maps.Marker({
-          icon: "http://maps.google.com/mapfiles/ms/icons/"+colour+"-dot.png",
-          position: busLatLon,
-          map: map,
-          title: "Bus: "+bus.Id+" | Reg: "+bus.Registration 
-        })
-
+      var busMarker = new google.maps.Marker({
+        icon: "http://maps.google.com/mapfiles/ms/icons/"+colour+"-dot.png",
+        position: busLatLon,
+        map: app.map,
+        title: "Bus: "+bus.Id+" | Reg: "+bus.Registration 
       })
-    });
-  }
-  
+      app.markers.push(busMarker);
+
+    })
+  });
+}
+
+function drawStops(app){
   ["red", "blue", "red"].forEach(function(colour, ci, colours){
     url = "http://localhost:3000/stops/"+(ci+1); 
     $.get(url)
@@ -275,14 +257,18 @@ function draw() {
         var elMarker = new google.maps.Marker({
               icon: "http://localhost:3000/images/"+colour+"/bus.png",
               position: new google.maps.LatLng(el.Latitude, el.Longitude),
-              map: map,
+              map: app.map,
               title: el.CommonName
         })
+        app.markers.push(elMarker);
       })
     })
   });
 
-  if ($('#carparks').is(':checked')){
+
+}
+
+function drawCarparks(app){
     $.get("http://localhost:3000/carparks")
     .done(function(data) {
       data.forEach(function(el,i,arr) {
@@ -293,12 +279,11 @@ function draw() {
         var cpMarker = new google.maps.Marker({
           icon: "http://maps.google.com/mapfiles/ms/icons/"+colour+"-dot.png",
           position: cpLatLon,
-          map: map,
+          map: app.map,
           title: cp.Name + " Car Park",
           visible: false
         })
-        
-        
+        app.markers.push(cpMarker);
         cpHealth = cp.SpacesNow / cp.Capacity;
         colour = null;
         if (cpHealth > 0.6){
@@ -310,10 +295,11 @@ function draw() {
         }
         
         var cpPoly = new google.maps.Polygon({paths: polys[cp.Id],
-                              map: map,
+                              map: app.map,
                               fillColor: colour,
                               clickable: true
                             });
+        app.polys.push(cpPoly);
                             
         var cpInfoOptions = {
           content: "<div class=\"infobox\" style=\"text-align:center;font-family:sans-serif;\"><b>"+cp.Name+"</b>" +
@@ -326,7 +312,7 @@ function draw() {
         
         var cpInfoWindow = new google.maps.InfoWindow(cpInfoOptions);
         google.maps.event.addListener(cpPoly, 'mouseover', function(evt){
-          cpInfoWindow.open(map, cpMarker);
+          cpInfoWindow.open(app.map, cpMarker);
         });
         
         google.maps.event.addListener(cpPoly, 'mouseout', function(evt){
@@ -335,17 +321,18 @@ function draw() {
         
       })
     });
+
+
+}
+
+function draw(app) {
+  if ($('#buses-button').hasClass('checked')){
+    drawBuses(app);
+  };
+  if ($('#bus-stops-button').hasClass('checked')){
+    drawStops(app);
+  };
+  if ($('#car-parks-button').hasClass('checked')){
+    drawCarparks(app);
   }
 };
-
-var socket = io.connect('http://localhost');
-
-socket.on('updateBusInfo', function () {
-  draw();
-});
-socket.on('updateCarParkInfo', function() {
-  draw();
-})
-
-
-google.maps.event.addDomListener(window, 'load', draw);
