@@ -161,6 +161,8 @@ button {
   left: -9999px;
   top: -9999px;
 
+  @include transition(top, 0.2s, ease);
+
   &.active {
     background-color: white;
     box-shadow: -2px 0px 10px 1px #888;
@@ -177,10 +179,12 @@ button {
     position: relative;
 
     &:after {
-      content: "<";
+      content: "x";
       position: absolute;
-      top: 120px;
-      left: 40px;
+      top: 10px;
+      text-align: center;
+      margin-left: 10px;
+
     }
 
     &:hover, &:focus {
