@@ -33,41 +33,23 @@ $(document).ready(function(){
       .remove()
       .end()
     
-    for (var stopCode in app.stops){
-      if (app.stops[stopCode].route == $(this).val()){
-        var stop = app.stops[stopCode]
+    for (var stopCode in app.stops){      
+      routes = app.stops[stopCode].routes;
+      console.log(routes+":"+$(this).val());
+      if (routes.indexOf(parseInt($(this).val(),10)) != -1){
+        console.log("Found stop");
+        var stopMarker = app.stops[stopCode].marker
         stopFinder
         .append($("<option />")
         .val(stopCode)
-        .text(stop.title));
+        .text(stopMarker.title));
       }
     }
   });
 
   stopFinder.change(function(evt) {
     busDepartures(evt, null, app);
-    $(".buses-listing > ul")
-               .find('li')
-               .remove()
-               .end()
-
-    $.get("http://localhost:3000/stopTimes/"+$(evt.target).val())
-    .done(function(data) {
-      console.log(data);
-      data.forEach(function(stopTime,sti,stopTimes) {
-        $(".buses-listing > ul")
-               .append($('<li />')
-               .append($('<span />')
-               .addClass("routeName")
-               .text(stopTime.routeName))
-               .append($('<span />')
-               .addClass("expectedTime")
-               .text(stopTime.expectedIn))
-               .append($('<span />')
-               .addClass("depTime")
-               .text(stopTime.depTime))); 
-      })
-    });
+    
     // animate current marker
     // get stuff from bobop API
     // populate .approaching-buses
@@ -86,9 +68,31 @@ $(document).ready(function(){
 function busDepartures(evt, stop, app){
   chosenStopCode = stop || $(evt.target).val();
   target = {
-    title: "Buses from " + app.stops[chosenStopCode].title,
-    marker: app.stops[chosenStopCode]
+    title: "Buses from " + app.stops[chosenStopCode].marker.title,
+    marker: app.stops[chosenStopCode].marker
   }
+  $(".buses-listing > ul")
+               .find('li')
+               .remove()
+               .end()
+
+    $.get("http://localhost:3000/stopTimes/"+chosenStopCode)
+    .done(function(data) {
+      console.log(data);
+      data.forEach(function(stopTime,sti,stopTimes) {
+        $(".buses-listing > ul")
+               .append($('<li />')
+               .append($('<span />')
+               .addClass("routeName")
+               .text(stopTime.routeName))
+               .append($('<span />')
+               .addClass("expectedTime")
+               .text(stopTime.expectedIn))
+               .append($('<span />')
+               .addClass("depTime")
+               .text(stopTime.depTime))); 
+      })
+    });
   renderDepartureBoard(target, app);
 }
 
@@ -303,7 +307,7 @@ function clear(app){
     app.polys[i].setMap(null);
   }
   for (var stopCode in app.stops){
-    app.stops[stopCode].setMap(null);
+    app.stops[stopCode].marker.setMap(null);
   }
   for (var stationCode in app.stations){
     app.stations[stationCode].setMap(null);
@@ -376,13 +380,17 @@ function drawStops(app){
                 icon: "http://localhost:3000/images/"+colour+"/busstop.png",
                 position: new google.maps.LatLng(stop.Latitude, stop.Longitude),
                 map: app.map,
-                title: stop.CommonName,
-                route: ci+1
+                title: stop.CommonName
           })
-          app.stops[stop.AtcoCode] = stopMarker;
+          app.stops[stop.AtcoCode] = {marker: stopMarker,
+                                      routes: []
+                                     };
+          app.stops[stop.AtcoCode].routes.push(ci+1);
           google.maps.event.addListener(stopMarker, 'click', function(evt){
             busDepartures(null, stop.AtcoCode, app);
           });
+        } else {
+          app.stops[stop.AtcoCode].routes.push(ci+1);
         }
        
         
@@ -432,7 +440,7 @@ function drawCarparks(app){
         }
         
         var cpInfoWindow = new google.maps.InfoWindow(cpInfoOptions);
-        google.maps.event.addListener(cpPoly, 'mouseover', function(evt){
+        google.maps.event.addListener(cpPoly, 'click', function(evt){
           cpInfoWindow.open(app.map, cpMarker);
         });
         
