@@ -86,6 +86,7 @@ function activateDepartureBoard(evt, stop, app){
   $(".approaching-buses").addClass("active");
   var stop = app.stops[chosenStopCode];
   stop.setAnimation(google.maps.Animation.BOUNCE);
+  setTimeout(function(){stop.setAnimation(null)}, 5000);
   app.map.panTo(stop.getPosition());
   app.map.setZoom(16);
   app.map.panBy(0, 200);
