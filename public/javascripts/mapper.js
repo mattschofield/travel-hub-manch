@@ -1,5 +1,6 @@
 $(document).ready(function(){
-  $("#carparks, #buses, #refresh").click(function(evt){
+  $("button").click(function(evt){
+    $(this).toggleClass("checked");
     draw();
   });
 });
@@ -244,7 +245,7 @@ function draw() {
   var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
   
 
-  if ($('#buses').is(':checked')){
+  if ($('#buses-button').hasClass('checked')){
     $.get("http://localhost:3000/buses")
     .done(function(data) {
       data.forEach(function(el,i,arr) {
@@ -282,7 +283,7 @@ function draw() {
     })
   });
 
-  if ($('#carparks').is(':checked')){
+  if ($('#car-parks-button').hasClass('checked')){
     $.get("http://localhost:3000/carparks")
     .done(function(data) {
       data.forEach(function(el,i,arr) {
