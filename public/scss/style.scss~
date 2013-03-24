@@ -90,7 +90,7 @@ button {
   background-position: top center;
   background-repeat: no-repeat;
 }
-#train-stations-button {
+#buses-button {
   background-image:url(/images/white/train.png);
   background-position: top center;
   background-repeat: no-repeat;
@@ -203,21 +203,17 @@ button {
         margin: 10px;
         padding-top: 5px;
         padding-bottom: 5px;
-        position:relative;
       }
     }
 
     span {
-      font-family: monospace;
+      font-family: sans-serif;
     }
     .routeName {
-      font-size: 28px; 
-      color: #FF9900;
-      margin-right: 50px;
+      font-size: 22px; 
     }
-    .expectedTime {
-      font-size: 26px;
-      color:#555;
+    .expectedIn {
+
     }
     .depTime {
 

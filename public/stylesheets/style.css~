@@ -39,7 +39,7 @@ button.checked:hover, button.checked:focus { background-color: #00a437; }
 #buses-button { background-image: url(/images/white/bus.png); background-position: top center; background-repeat: no-repeat; }
 
 /* line 88, ../scss/style.scss */
-#train-stations-button { background-image: url(/images/white/train.png); background-position: top center; background-repeat: no-repeat; }
+#train-station-button { background-image: url(/images/white/train.png); background-position: top center; background-repeat: no-repeat; }
 
 /* line 94, ../scss/style.scss */
 .controls { margin-top: 60px; padding-left: 60px; position: relative; }
@@ -81,10 +81,8 @@ button.checked:hover, button.checked:focus { background-color: #00a437; }
 /* line 193, ../scss/style.scss */
 .approaching-buses .buses-listing > ul { font-family: sans-serif; list-style: none; padding-left: 0; }
 /* line 197, ../scss/style.scss */
-.approaching-buses .buses-listing > ul > li { margin: 10px; padding-top: 5px; padding-bottom: 5px; position: relative; }
-/* line 205, ../scss/style.scss */
-.approaching-buses .buses-listing span { font-family: monospace; }
-/* line 208, ../scss/style.scss */
-.approaching-buses .buses-listing .routeName { font-size: 28px; color: #FF9900; margin-right: 50px; }
-/* line 213, ../scss/style.scss */
-.approaching-buses .buses-listing .expectedTime { font-size: 26px; color: #555; }
+.approaching-buses .buses-listing > ul > li { margin: 10px; padding-top: 5px; padding-bottom: 5px; }
+/* line 204, ../scss/style.scss */
+.approaching-buses .buses-listing span { font-family: sans-serif; }
+/* line 207, ../scss/style.scss */
+.approaching-buses .buses-listing .routeName { font-size: 22px; }
