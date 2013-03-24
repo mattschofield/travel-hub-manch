@@ -20,7 +20,7 @@ function getTimes(stopId, times, callback){
   request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var parsedTimes = JSON.parse(body).stop_times
-      var now = moment().year(2000).dayOfYear(1).hour(5).minute(40);
+      var now = moment().year(2000).dayOfYear(1);
 
       console.log(parsedTimes.length);
       for (var i = 0; i < parsedTimes.length; i++) {
@@ -28,7 +28,13 @@ function getTimes(stopId, times, callback){
         if (checkTime.isBefore(now)) {
 
         } else {
-          times = parsedTimes.splice(i, 5);
+          allDataFromAPI = parsedTimes.splice(i, 5);
+          allDataFromAPI.forEach(function(el, i, arr){
+            time = {}
+            time.routeName = el.trip.route.route_short_name;
+            time.expectedIn = moment(el.departure_time).from(now);
+            times.push(time);
+          })
           break;
         }
       };
