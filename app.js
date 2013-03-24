@@ -11,10 +11,16 @@ var express = require('express')
   , carparks = require('./routes/carparks')
   , http = require('http')
   , path = require('path');
+var redis = require("redis"),
+client = redis.createClient();
 
 var app = express();
 var server = http.createServer(app);
 var config = require('./config/config');
+
+client.on("error", function (err) {
+  console.log("Error " + err);
+});
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);

@@ -15,7 +15,6 @@ $(document).ready(function(){
   
   $("button").click(function(evt){
     $(this).toggleClass("checked");
-    clear(app);
     draw(app);
   });
   
@@ -319,6 +318,7 @@ function drawCarparks(app){
 }
 
 function draw(app) {
+  clear(app);
   if ($('#buses-button').hasClass('checked')){
     drawBuses(app);
   };
