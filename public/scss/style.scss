@@ -1,3 +1,5 @@
+@import "compass/css3";
+
 body {
   margin: 0;
 }
@@ -14,7 +16,7 @@ body {
 
   [class*='col-'] {
     float: left;
-    min-height: 1000px;
+    height: 900px;
     padding-right: 20px;
     padding-left: 20px;
   }
@@ -36,6 +38,39 @@ body {
   }
 }
 
+button {
+  width: 80%;
+  height: 70px;
+  margin: 5px;
+  border: none;
+  color: white;
+  background-color: #CC3300;
+  cursor: pointer;
+  left: auto;
+  right: auto;
+  font-size: 26px;
+  font-weight: 100;
+  text-transform: uppercase;
+
+  &:hover, &:focus {
+    background-color: lighten(#CC3300, 5%);
+  }
+
+  &.checked {
+    background-color: #008A2E;
+
+    &:hover, &:focus {
+      background-color: lighten(#008A2E, 5%);
+    }
+  }
+
+}
+
+.controls {
+  margin-top: 60px;
+  padding-left: 50px;
+}
+
 .logo {
   text-align: center;
   font-size: 100px;
@@ -49,4 +84,8 @@ body {
   text-align: center;
   letter-spacing: 3px;
   margin-top: 0;
+}
+
+.infobox {
+  overflow: hidden;
 }

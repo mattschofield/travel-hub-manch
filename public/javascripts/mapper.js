@@ -13,12 +13,10 @@ $(document).ready(function(){
     polys: []
   }
   
-  $("#redraw").click(function(evt){
+  $("button").click(function(evt){
+    $(this).toggleClass("checked");
     clear(app);
     draw(app);
-  });
-  $("#clear").click(function(evt){
-    clear(app);
   });
   
   var socket = io.connect('http://localhost');
@@ -214,7 +212,6 @@ var polys = {
 };
 
 function clear(app){
-  console.log("clearing!");
   for (var i = 0; i < app.markers.length; i++){
     app.markers[i].setMap(null);
   }
@@ -264,8 +261,6 @@ function drawStops(app){
       })
     })
   });
-
-
 }
 
 function drawCarparks(app){
@@ -277,10 +272,8 @@ function drawCarparks(app){
         var colour = "orange";
         
         var cpMarker = new google.maps.Marker({
-          icon: "http://maps.google.com/mapfiles/ms/icons/"+colour+"-dot.png",
           position: cpLatLon,
           map: app.map,
-          title: cp.Name + " Car Park",
           visible: false
         })
         app.markers.push(cpMarker);
@@ -293,7 +286,7 @@ function drawCarparks(app){
         } else {
           colour= "red";
         }
-        
+       
         var cpPoly = new google.maps.Polygon({paths: polys[cp.Id],
                               map: app.map,
                               fillColor: colour,

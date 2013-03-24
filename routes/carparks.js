@@ -5,27 +5,27 @@
 var request = require('request');
 var config = require('../config/config');
 var async = require('async');
-var carparks = [];
 
 exports.list = function(req, res){
+  var carparks = [];
   async.parallel([
     function(callback) {
-      getCarparks(0, function(err) {
+      getCarparks(0, carparks, function(err) {
         if (!err) { callback(null, 0); }
       })
     },
     function(callback) {
-      getCarparks(1, function(err) {
+      getCarparks(1, carparks, function(err) {
         if (!err) { callback(null, 1); }
       })
     },
     function(callback) {
-      getCarparks(2, function(err) {
+      getCarparks(2, carparks, function(err) {
         if (!err) { callback(null, 2); }
       })
     },
     function(callback) {
-      getCarparks(3, function(err) {
+      getCarparks(3, carparks, function(err) {
         if (!err) { callback(null, 3); }
       })
     }
@@ -35,7 +35,7 @@ exports.list = function(req, res){
   });
 };
 
-function getCarparks(pageNum, callback){
+function getCarparks(pageNum, carparks, callback){
   var options = {
     url: config.apiAddr + '/api/CarParks?pageIndex='+pageNum+'&pageSize=10',
     headers: {
