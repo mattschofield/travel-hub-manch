@@ -39,7 +39,7 @@ button.checked:hover, button.checked:focus { background-color: #00a437; }
 #buses-button { background-image: url(/images/white/bus.png); background-position: top center; background-repeat: no-repeat; }
 
 /* line 88, ../scss/style.scss */
-#train-stations-button { background-image: url(/images/white/train.png); background-position: top center; background-repeat: no-repeat; }
+#train-station-button { background-image: url(/images/white/train.png); background-position: top center; background-repeat: no-repeat; }
 
 /* line 94, ../scss/style.scss */
 .controls { margin-top: 60px; padding-left: 60px; position: relative; }

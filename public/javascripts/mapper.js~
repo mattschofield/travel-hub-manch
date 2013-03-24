@@ -329,7 +329,7 @@ function drawTrainStations(app){
                  };
   for (var stationCode in stations){
     var trainStationMarker = new google.maps.Marker({
-        icon: "http://localhost:3000/images/darkredboxed/train.png",
+        icon: "http://localhost:3000/images/red/train.png",
         position: stations[stationCode].location,
         map: app.map,
         title: stations[stationCode].commonName

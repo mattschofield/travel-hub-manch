@@ -90,7 +90,7 @@ button {
   background-position: top center;
   background-repeat: no-repeat;
 }
-#train-stations-button {
+#buses-button {
   background-image:url(/images/white/train.png);
   background-position: top center;
   background-repeat: no-repeat;
