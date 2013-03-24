@@ -46,9 +46,9 @@ body {
 }
 
 button {
-  width: 80%;
+  width: 25%;
   height: 50px;
-  margin: 2px;
+  margin: 5px;
   border: none;
   color: white;
   background-color: #CC3300;
@@ -58,6 +58,8 @@ button {
   font-size: 26px;
   font-weight: 100;
   text-transform: uppercase;
+  display: inline-block;
+  vertical-align: middle;
 
   &:hover, &:focus {
     background-color: lighten(#CC3300, 5%);

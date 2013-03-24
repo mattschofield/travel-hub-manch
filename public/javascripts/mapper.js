@@ -18,18 +18,21 @@ $(document).ready(function(){
   });
   
   $("#hide-button").click(function(evt) {
-    $(".approaching-buses").removeClass("active");
+    var content = $(".approaching-buses");
+    content.removeClass("active");
   })
 
+  var stopFinder = $(".stop-finder");
+
   $(".route-finder").change(function(evt) {
-    $(".stop-finder")
+    stopFinder
       .find('option')
       .remove()
       .end()
     $.get("http://localhost:3000/stops/"+$(this).val())
     .done(function(data) {
       data.forEach(function(stop,i,arr) {
-        $(".stop-finder")
+        stopFinder
         .append($("<option />")
         .val(stop.AtcoCode)
         .text(stop.CommonName));
@@ -37,9 +40,22 @@ $(document).ready(function(){
     });
   });
 
-  $(".stop-finder").change(function(evt) {
+  stopFinder.change(function(evt) {
     $(".approaching-buses").addClass("active");
-
+    alert("Calling stopTimes");
+    $.get("http://localhost:3000/stopTimes/"+$(evt.target).val())
+    .done(function(data) {
+      console.log(data);
+      data.forEach(function(stopTime,sti,stopTimes) {
+        content.append($('<li />')
+               .append($('<span />')
+               .addClass("routeName")
+               .text(stopTime.route)
+               .append($('<span />')
+               .addClass("expectedTime")
+               .text(stopTime.expectedIn)))); 
+      })
+    });
     // animate current marker
     // get stuff from bobop API
     // populate .approaching-buses
@@ -284,16 +300,6 @@ function drawStops(app){
               title: stop.CommonName
         })
         app.markers.push(stopMarker);
-        
-        var stopInfoOptions = {content:"<div><ul>"};
-        
-        // $.get("http://localhost:3000/stopTimes/"+stop.AtcoCode)
-        //   .done(function(data) {
-        //     data.forEach(function(stopTime,sti,stopTimes) {
-        //       stopInfoOptions.content += "<li>"+stopTime.routeName+" expected "+stopTime.expectedIn+"</li>";
-        //     })
-        //     stopInfoOptions.content += "</ul></div>";
-        //   });
         
         var stopInfoWindow = new google.maps.InfoWindow(stopInfoOptions);
         google.maps.event.addListener(stopMarker, 'click', function(evt){
