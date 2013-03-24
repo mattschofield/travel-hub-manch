@@ -9,6 +9,7 @@ $(document).ready(function(){
   var app = {
     map: map,
     stops: {},
+    stations: {},
     markers: [],
     polys: []
   }
@@ -18,7 +19,7 @@ $(document).ready(function(){
     draw(app);
   });
 
-  var content = $(".approaching-buses");
+  var content = $(".departures-board");
 
   $("#hide-button").click(function(evt) {
     content.removeClass("active");
@@ -44,7 +45,7 @@ $(document).ready(function(){
   });
 
   stopFinder.change(function(evt) {
-    activateDepartureBoard(evt, null, app);
+    busDepartures(evt, null, app);
 
     $.get("http://localhost:3000/stopTimes/"+$(evt.target).val())
     .done(function(data) {
@@ -77,21 +78,33 @@ $(document).ready(function(){
   draw(app);
 });
 
-function activateDepartureBoard(evt, stop, app){
-
+function busDepartures(evt, stop, app){
   chosenStopCode = stop || $(evt.target).val();
-  $(".bus-stop-title").text(app.stops[chosenStopCode].title);
+  target = {
+    title: "Buses from " + app.stops[chosenStopCode].title,
+    marker: app.stops[chosenStopCode]
+  }
+  renderDepartureBoard(target, app);
+}
 
-  console.log(chosenStopCode);
-  $(".approaching-buses").addClass("active");
-  var stop = app.stops[chosenStopCode];
-  stop.setAnimation(google.maps.Animation.BOUNCE);
-  setTimeout(function(){stop.setAnimation(null)}, 5000);
-  app.map.panTo(stop.getPosition());
+function trainDepartures(evt, station, app){
+  chosenStopCode = station || $(evt.target).val();
+  target = {
+    title: "Trains from " + app.stops[chosenStopCode].title,
+    marker: app.stops[chosenStopCode]
+  }
+  renderDepartureBoard(target, app);
+}
+
+function renderDepartureBoard(target, app){
+  $(".item-title").text(target.title);
+  $(".departures-board").addClass("active");
+  var mkr = target.marker;
+  mkr.setAnimation(google.maps.Animation.BOUNCE);
+  setTimeout(function(){mkr.setAnimation(null)}, 5000);
+  app.map.panTo(mkr.getPosition());
   app.map.setZoom(16);
   app.map.panBy(0, 200);
-  // get stuff from bobop API
-  // populate .approaching-buses
 }
 
 
@@ -287,9 +300,13 @@ function clear(app){
   for (var stopCode in app.stops){
     app.stops[stopCode].setMap(null);
   }
+  for (var stationCode in app.stations){
+    app.stations[stationCode].setMap(null);
+  }
   app.markers = [];
   app.polys = [];
   app.stops = {};
+  app.stations = {};
 }
 
 function drawBuses(app){
@@ -329,13 +346,12 @@ function drawTrainStations(app){
                  };
   for (var stationCode in stations){
     var trainStationMarker = new google.maps.Marker({
-        icon: "http://localhost:3000/images/red/train.png",
+        icon: "http://localhost:3000/images/darkredboxed/train.png",
         position: stations[stationCode].location,
         map: app.map,
         title: stations[stationCode].commonName
       })
-      app.markers.push(trainStationMarker);
-  
+      app.stations[stationCode] = trainStationMarker;  
   }
                   
   
@@ -357,7 +373,7 @@ function drawStops(app){
           })
           app.stops[stop.AtcoCode] = stopMarker;
           google.maps.event.addListener(stopMarker, 'click', function(evt){
-            activateDepartureBoard(null, stop.AtcoCode, app);
+            busDepartures(null, stop.AtcoCode, app);
           });
         }
        
