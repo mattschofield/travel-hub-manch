@@ -68,7 +68,16 @@ button {
 
 .controls {
   margin-top: 60px;
-  padding-left: 50px;
+  padding-left: 60px;
+  position: relative;
+  &:after {
+    content: "Toggle...";
+    position: absolute;
+    font-family: sans-serif;
+    color: #CCC;
+    top: -20px;
+    left: 15%;
+  }
 }
 
 .logo {
