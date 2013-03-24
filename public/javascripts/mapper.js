@@ -281,7 +281,7 @@ function drawBuses(app){
       if (bus.Route == "MET3") { colour = "blue"; }
 
       var busMarker = new google.maps.Marker({
-        icon: "http://maps.google.com/mapfiles/ms/icons/"+colour+"-dot.png",
+        icon: "http://localhost:3000/images/"+colour+"boxed/bus.png",
         position: busLatLon,
         map: app.map,
         title: "Bus: "+bus.Id+" | Reg: "+bus.Registration 
@@ -299,7 +299,7 @@ function drawStops(app){
     .done(function(data) {
       data.forEach(function(stop,i,arr) {
         var stopMarker = new google.maps.Marker({
-              icon: "http://localhost:3000/images/"+colour+"/bus.png",
+              icon: "http://localhost:3000/images/"+colour+"/busstop.png",
               position: new google.maps.LatLng(stop.Latitude, stop.Longitude),
               map: app.map,
               title: stop.CommonName,
