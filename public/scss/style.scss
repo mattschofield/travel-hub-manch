@@ -72,7 +72,23 @@ button {
       background-color: lighten(#008A2E, 5%);
     }
   }
+}
 
+
+#car-parks-button {
+  background-image:url(/images/white/car.png);
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+#bus-stops-button {
+  background-image:url(/images/white/busstop.png);
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+#buses-button {
+  background-image:url(/images/white/bus.png);
+  background-position: top center;
+  background-repeat: no-repeat;
 }
 
 .controls {
