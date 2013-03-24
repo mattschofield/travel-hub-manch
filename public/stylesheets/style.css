@@ -72,4 +72,14 @@ button.checked:hover, button.checked:focus { background-color: #00a437; }
 /* line 181, ../scss/style.scss */
 .approaching-buses .hide-button:hover, .approaching-buses .hide-button:focus { background-color: #CCC; color: #888; }
 /* line 186, ../scss/style.scss */
-.approaching-buses .buses-listing { height: 100%; padding-top: 120px; }
+.approaching-buses .buses-listing { height: 100%; }
+/* line 188, ../scss/style.scss */
+.approaching-buses .buses-listing h2 { font-family: sans-serif; color: #333; font-weight: bold; }
+/* line 193, ../scss/style.scss */
+.approaching-buses .buses-listing > ul { font-family: sans-serif; list-style: none; padding-left: 0; }
+/* line 197, ../scss/style.scss */
+.approaching-buses .buses-listing > ul > li { margin: 10px; padding-top: 5px; padding-bottom: 5px; }
+/* line 204, ../scss/style.scss */
+.approaching-buses .buses-listing span { font-family: sans-serif; }
+/* line 207, ../scss/style.scss */
+.approaching-buses .buses-listing .routeName { font-size: 22px; }

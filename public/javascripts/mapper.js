@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  var latlng = new google.maps.LatLng(53.477333 , -2.247412);
+  var latlng = new google.maps.LatLng(53.479286,-2.244043);
   var myOptions = {
     zoom: 15,
     center: latlng,
@@ -17,9 +17,10 @@ $(document).ready(function(){
     $(this).toggleClass("checked");
     draw(app);
   });
-  
+
+  var content = $(".approaching-buses");
+
   $("#hide-button").click(function(evt) {
-    var content = $(".approaching-buses");
     content.removeClass("active");
   })
 
@@ -45,19 +46,22 @@ $(document).ready(function(){
   stopFinder.change(function(evt) {
     activateDepartureBoard(evt, null, app);
 
-    // $.get("http://localhost:3000/stopTimes/"+$(evt.target).val())
-    // .done(function(data) {
-    //   console.log(data);
-    //   data.forEach(function(stopTime,sti,stopTimes) {
-    //     content.append($('<li />')
-    //            .append($('<span />')
-    //            .addClass("routeName")
-    //            .text(stopTime.route)
-    //            .append($('<span />')
-    //            .addClass("expectedTime")
-    //            .text(stopTime.expectedIn)))); 
-    //   })
-    // });
+    $.get("http://localhost:3000/stopTimes/"+$(evt.target).val())
+    .done(function(data) {
+      console.log(data);
+      data.forEach(function(stopTime,sti,stopTimes) {
+        $(".buses-listing > ul").append($('<li />')
+               .append($('<span />')
+               .addClass("routeName")
+               .text(stopTime.routeName))
+               .append($('<span />')
+               .addClass("expectedTime")
+               .text(stopTime.expectedIn))
+               .append($('<span />')
+               .addClass("depTime")
+               .text(stopTime.depTime))); 
+      })
+    });
     // animate current marker
     // get stuff from bobop API
     // populate .approaching-buses
@@ -74,7 +78,10 @@ $(document).ready(function(){
 });
 
 function activateDepartureBoard(evt, stop, app){
+
   chosenStopCode = stop || $(evt.target).val();
+  $(".bus-stop-title").text(app.stops[chosenStopCode].title);
+
   console.log(chosenStopCode);
   $(".approaching-buses").addClass("active");
   var stop = app.stops[chosenStopCode];

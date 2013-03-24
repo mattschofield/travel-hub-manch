@@ -185,6 +185,34 @@ button {
   }
   .buses-listing {
     height: 100%;
-    padding-top: 120px;
+    h2 {
+      font-family: sans-serif;
+      color: #333;
+      font-weight: bold;
+    }
+    > ul {
+      font-family: sans-serif;
+      list-style: none;
+      padding-left: 0;
+      > li {
+        margin: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+    }
+
+    span {
+      font-family: sans-serif;
+    }
+    .routeName {
+      font-size: 22px; 
+    }
+    .expectedIn {
+
+    }
+    .depTime {
+
+    }
   }
+
 }
