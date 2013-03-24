@@ -43,22 +43,24 @@ button.checked:hover, button.checked:focus { background-color: #00a437; }
 /* line 105, ../scss/style.scss */
 .infobox { overflow: hidden; }
 
-/* line 110, ../scss/style.scss */
-.finder > select { -webkit-appearance: none; }
+/* line 109, ../scss/style.scss */
+.finder { margin-top: 50px; padding-left: 60px; position: relative; }
 /* line 114, ../scss/style.scss */
-.finder .route-finder { width: 20%; }
-/* line 117, ../scss/style.scss */
-.finder .stop-finder { width: 20%; }
+.finder:after { content: "Or, pick a Metroshuttle and Bus Stop..."; position: absolute; font-family: sans-serif; color: #CCC; top: -20px; left: 15%; }
+/* line 124, ../scss/style.scss */
+.finder .route-finder { width: 80%; }
+/* line 127, ../scss/style.scss */
+.finder .stop-finder { width: 80%; }
 
-/* line 123, ../scss/style.scss */
+/* line 133, ../scss/style.scss */
 .approaching-buses { background-color: transparent; position: absolute; width: 66.66%; height: 300px; left: -9999px; top: -9999px; }
-/* line 131, ../scss/style.scss */
+/* line 141, ../scss/style.scss */
 .approaching-buses.active { background-color: white; box-shadow: -2px 0px 10px 1px #888888; top: 450px; left: 33.33%; }
-/* line 138, ../scss/style.scss */
+/* line 148, ../scss/style.scss */
 .approaching-buses .hide-button { font-family: sans-serif; font-size: 55px; color: #CCC; font-weight: 100; height: 100%; position: relative; }
-/* line 146, ../scss/style.scss */
+/* line 156, ../scss/style.scss */
 .approaching-buses .hide-button:after { content: "<"; position: absolute; top: 120px; left: 40px; }
-/* line 153, ../scss/style.scss */
+/* line 163, ../scss/style.scss */
 .approaching-buses .hide-button:hover, .approaching-buses .hide-button:focus { background-color: #CCC; color: #888; }
-/* line 158, ../scss/style.scss */
+/* line 168, ../scss/style.scss */
 .approaching-buses .buses-listing { height: 100%; padding-top: 120px; }
