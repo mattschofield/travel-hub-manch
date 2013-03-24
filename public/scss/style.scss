@@ -46,9 +46,9 @@ body {
 }
 
 button {
-  width: 25%;
+  width: 20%;
   height: 50px;
-  margin: 5px;
+  margin: 2px;
   border: none;
   color: white;
   background-color: #CC3300;
@@ -156,7 +156,7 @@ button {
 .approaching-buses {
   background-color: transparent;
   position: absolute;
-  width: 66.66%;
+  width: 50%;
   height: 300px;
   left: -9999px;
   top: -9999px;
@@ -200,7 +200,6 @@ button {
       list-style: none;
       padding-left: 0;
       > li {
-        margin: 10px;
         padding-top: 5px;
         padding-bottom: 5px;
         position:relative;
@@ -213,14 +212,18 @@ button {
     .routeName {
       font-size: 28px; 
       color: #FF9900;
-      margin-right: 50px;
+      margin-right: 70px;
     }
     .expectedTime {
       font-size: 26px;
       color:#555;
+      margin-right: 50px;
     }
     .depTime {
-
+      font-size: 34px;
+      margin-bottom: -5px;
+      float: right;
+      padding-right: 100px;
     }
   }
 
