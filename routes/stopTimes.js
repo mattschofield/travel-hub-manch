@@ -50,7 +50,7 @@ function getTimes(stopId, times, callback){
     {
       routeName: "MET1"
       ,depTime: "11:45"
-      ,expectedIn: "1 minute"
+      ,expectedIn: "1 min"
     },
     {
       routeName:"MET1"

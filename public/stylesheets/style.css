@@ -21,7 +21,7 @@ body { margin: 0; }
 .grid .col-7-8 { width: 87.5%; }
 
 /* line 48, ../scss/style.scss */
-button { width: 25%; height: 50px; margin: 5px; border: none; color: white; background-color: #CC3300; cursor: pointer; left: auto; right: auto; font-size: 26px; font-weight: 100; text-transform: uppercase; display: inline-block; vertical-align: middle; }
+button { width: 20%; height: 50px; margin: 2px; border: none; color: white; background-color: #CC3300; cursor: pointer; left: auto; right: auto; font-size: 26px; font-weight: 100; text-transform: uppercase; display: inline-block; vertical-align: middle; }
 /* line 64, ../scss/style.scss */
 button:hover, button:focus { background-color: #e63900; }
 /* line 68, ../scss/style.scss */
@@ -38,51 +38,55 @@ button.checked:hover, button.checked:focus { background-color: #00a437; }
 /* line 88, ../scss/style.scss */
 #buses-button { background-image: url(/images/white/bus.png); background-position: top center; background-repeat: no-repeat; }
 
-/* line 88, ../scss/style.scss */
+/* line 93, ../scss/style.scss */
 #train-stations-button { background-image: url(/images/white/train.png); background-position: top center; background-repeat: no-repeat; }
 
-/* line 94, ../scss/style.scss */
+/* line 99, ../scss/style.scss */
 .controls { margin-top: 60px; padding-left: 60px; position: relative; }
-/* line 98, ../scss/style.scss */
+/* line 103, ../scss/style.scss */
 .controls:after { content: "Toggle..."; position: absolute; font-family: sans-serif; color: #CCC; top: -20px; left: 15%; }
 
-/* line 108, ../scss/style.scss */
+/* line 113, ../scss/style.scss */
 .logo { text-align: center; font-size: 100px; margin-bottom: 0; }
 
-/* line 113, ../scss/style.scss */
+/* line 118, ../scss/style.scss */
 .sub-heading { text-transform: uppercase; font-weight: 100; font-family: sans-serif; color: #CCC; text-align: center; letter-spacing: 3px; margin-top: 0; }
 
-/* line 123, ../scss/style.scss */
+/* line 128, ../scss/style.scss */
 .infobox { overflow: hidden; }
 
-/* line 127, ../scss/style.scss */
-.finder { margin-top: 50px; padding-left: 60px; position: relative; }
 /* line 132, ../scss/style.scss */
+.finder { margin-top: 50px; padding-left: 60px; position: relative; }
+/* line 137, ../scss/style.scss */
 .finder:after { content: "Or, pick a Metroshuttle and Bus Stop..."; position: absolute; font-family: sans-serif; color: #CCC; top: -20px; left: 15%; }
-/* line 142, ../scss/style.scss */
+/* line 147, ../scss/style.scss */
 .finder .route-finder { width: 80%; }
-/* line 145, ../scss/style.scss */
+/* line 150, ../scss/style.scss */
 .finder .stop-finder { width: 80%; }
 
-/* line 151, ../scss/style.scss */
-.approaching-buses { background-color: transparent; position: absolute; width: 66.66%; height: 300px; left: -9999px; top: -9999px; }
-/* line 159, ../scss/style.scss */
+/* line 156, ../scss/style.scss */
+.approaching-buses { background-color: transparent; position: absolute; width: 50%; height: 300px; left: -9999px; top: -9999px; }
+/* line 164, ../scss/style.scss */
 .approaching-buses.active { background-color: white; box-shadow: -2px 0px 10px 1px #888888; top: 450px; left: 33.33%; }
-/* line 166, ../scss/style.scss */
+/* line 171, ../scss/style.scss */
 .approaching-buses .hide-button { font-family: sans-serif; font-size: 55px; color: #CCC; font-weight: 100; height: 100%; position: relative; }
-/* line 174, ../scss/style.scss */
+/* line 179, ../scss/style.scss */
 .approaching-buses .hide-button:after { content: "<"; position: absolute; top: 120px; left: 40px; }
-/* line 181, ../scss/style.scss */
-.approaching-buses .hide-button:hover, .approaching-buses .hide-button:focus { background-color: #CCC; color: #888; }
 /* line 186, ../scss/style.scss */
+.approaching-buses .hide-button:hover, .approaching-buses .hide-button:focus { background-color: #CCC; color: #888; }
+/* line 191, ../scss/style.scss */
 .approaching-buses .buses-listing { height: 100%; }
-/* line 188, ../scss/style.scss */
-.approaching-buses .buses-listing h2 { font-family: sans-serif; color: #333; font-weight: bold; }
 /* line 193, ../scss/style.scss */
+.approaching-buses .buses-listing h2 { font-family: sans-serif; color: #333; font-weight: bold; }
+/* line 198, ../scss/style.scss */
 .approaching-buses .buses-listing > ul { font-family: sans-serif; list-style: none; padding-left: 0; }
-/* line 197, ../scss/style.scss */
-.approaching-buses .buses-listing > ul > li { margin: 10px; padding-top: 5px; padding-bottom: 5px; }
-/* line 204, ../scss/style.scss */
-.approaching-buses .buses-listing span { font-family: sans-serif; }
-/* line 207, ../scss/style.scss */
-.approaching-buses .buses-listing .routeName { font-size: 22px; }
+/* line 202, ../scss/style.scss */
+.approaching-buses .buses-listing > ul > li { padding-top: 5px; padding-bottom: 5px; position: relative; }
+/* line 209, ../scss/style.scss */
+.approaching-buses .buses-listing span { font-family: monospace; }
+/* line 212, ../scss/style.scss */
+.approaching-buses .buses-listing .routeName { font-size: 28px; color: #FF9900; margin-right: 70px; }
+/* line 217, ../scss/style.scss */
+.approaching-buses .buses-listing .expectedTime { font-size: 26px; color: #555; margin-right: 50px; }
+/* line 222, ../scss/style.scss */
+.approaching-buses .buses-listing .depTime { font-size: 34px; margin-bottom: -5px; float: right; padding-right: 100px; }
