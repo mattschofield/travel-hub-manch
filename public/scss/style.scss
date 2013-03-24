@@ -156,6 +156,7 @@ button {
 .departures-board {
   background-color: transparent;
   position: absolute;
+  min-width: 700px;
   width: 50%;
   height: 300px;
   left: -9999px;
