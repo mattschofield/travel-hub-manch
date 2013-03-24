@@ -19,11 +19,14 @@ $(document).ready(function(){
   });
   
   $("#hide-button").click(function(evt) {
-    $(".approaching-buses").removeClass("active");
+    var content = $(".approaching-buses");
+    content.removeClass("active");
   })
 
+  var stopFinder = $(".stop-finder");
+
   $(".route-finder").change(function(evt) {
-    $(".stop-finder")
+    stopFinder
       .find('option')
       .remove()
       .end()
@@ -31,7 +34,7 @@ $(document).ready(function(){
     for (var stopCode in app.stops){
       if (app.stops[stopCode].route == $(this).val()){
         var stop = app.stops[stopCode]
-        $(".stop-finder")
+        stopFinder
         .append($("<option />")
         .val(stopCode)
         .text(stop.title));
@@ -39,8 +42,25 @@ $(document).ready(function(){
     }
   });
 
-  $(".stop-finder").change(function(evt) {
+  stopFinder.change(function(evt) {
     activateDepartureBoard(evt, null, app);
+
+    // $.get("http://localhost:3000/stopTimes/"+$(evt.target).val())
+    // .done(function(data) {
+    //   console.log(data);
+    //   data.forEach(function(stopTime,sti,stopTimes) {
+    //     content.append($('<li />')
+    //            .append($('<span />')
+    //            .addClass("routeName")
+    //            .text(stopTime.route)
+    //            .append($('<span />')
+    //            .addClass("expectedTime")
+    //            .text(stopTime.expectedIn)))); 
+    //   })
+    // });
+    // animate current marker
+    // get stuff from bobop API
+    // populate .approaching-buses
   })
 
   var socket = io.connect('http://localhost');
@@ -65,6 +85,7 @@ function activateDepartureBoard(evt, stop, app){
   // get stuff from bobop API
   // populate .approaching-buses
 }
+
 
 var polys = {
 21916:[],
