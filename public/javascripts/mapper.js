@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  //Load Google Map
   var latlng = new google.maps.LatLng(53.477333 , -2.247412);
   var myOptions = {
     zoom: 15,
@@ -249,14 +248,32 @@ function drawStops(app){
     url = "http://localhost:3000/stops/"+(ci+1); 
     $.get(url)
     .done(function(data) {
-      data.forEach(function(el,i,arr) {
-        var elMarker = new google.maps.Marker({
+      data.forEach(function(stop,i,arr) {
+        var stopMarker = new google.maps.Marker({
               icon: "http://localhost:3000/images/"+colour+"/bus.png",
-              position: new google.maps.LatLng(el.Latitude, el.Longitude),
+              position: new google.maps.LatLng(stop.Latitude, stop.Longitude),
               map: app.map,
-              title: el.CommonName
+              title: stop.CommonName
         })
-        app.markers.push(elMarker);
+        app.markers.push(stopMarker);
+        
+        var stopInfoOptions = {content:"<div><ul>"};
+        /*
+        $.get("http://localhost:3000/stopTimes/"+stop.AtcoCode)
+          .done(function(data) {
+            data.forEach(function(stopTime,sti,stopTimes) {
+              stopInfoOptions.content += "<li>"+stopTime+"</li>";
+            })
+            stopInfoOptions.content += "</ul></div>";
+          });
+        */
+        var stopInfoWindow = new google.maps.InfoWindow(stopInfoOptions);
+        google.maps.event.addListener(stopMarker, 'click', function(evt){
+          stopInfoWindow.open(app.map, stopMarker);
+        });
+        google.maps.event.addListener(stopMarker, 'mouseout', function(evt){
+          stopInfoWindow.close()
+        });
       })
     })
   });
