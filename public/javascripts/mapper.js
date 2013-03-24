@@ -17,6 +17,22 @@ $(document).ready(function(){
     draw(app);
   });
   
+  $(".route-finder").change(function(evt) {
+    $(".stop-finder")
+      .find('option')
+      .remove()
+      .end()
+    $.get("http://localhost:3000/stops/"+$(this).val())
+    .done(function(data) {
+      data.forEach(function(stop,i,arr) {
+        $(".stop-finder")
+        .append($("<option />")
+        .val(stop.AtcoCode)
+        .text(stop.CommonName));
+      })
+    });
+  });
+
   var socket = io.connect('http://localhost');
   socket.on('updateBusInfo', function () {
     draw(app);
@@ -258,15 +274,15 @@ function drawStops(app){
         app.markers.push(stopMarker);
         
         var stopInfoOptions = {content:"<div><ul>"};
-        /*
-        $.get("http://localhost:3000/stopTimes/"+stop.AtcoCode)
-          .done(function(data) {
-            data.forEach(function(stopTime,sti,stopTimes) {
-              stopInfoOptions.content += "<li>"+stopTime+"</li>";
-            })
-            stopInfoOptions.content += "</ul></div>";
-          });
-        */
+        
+        // $.get("http://localhost:3000/stopTimes/"+stop.AtcoCode)
+        //   .done(function(data) {
+        //     data.forEach(function(stopTime,sti,stopTimes) {
+        //       stopInfoOptions.content += "<li>"+stopTime.routeName+" expected "+stopTime.expectedIn+"</li>";
+        //     })
+        //     stopInfoOptions.content += "</ul></div>";
+        //   });
+        
         var stopInfoWindow = new google.maps.InfoWindow(stopInfoOptions);
         google.maps.event.addListener(stopMarker, 'click', function(evt){
           stopInfoWindow.open(app.map, stopMarker);

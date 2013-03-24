@@ -17,7 +17,7 @@ body { margin: 0; }
 .grid .col-2-3 { width: 66.66%; }
 
 /* line 41, ../scss/style.scss */
-button { width: 80%; height: 70px; margin: 5px; border: none; color: white; background-color: #CC3300; cursor: pointer; left: auto; right: auto; font-size: 26px; font-weight: 100; text-transform: uppercase; }
+button { width: 80%; height: 50px; margin: 2px; border: none; color: white; background-color: #CC3300; cursor: pointer; left: auto; right: auto; font-size: 26px; font-weight: 100; text-transform: uppercase; }
 /* line 55, ../scss/style.scss */
 button:hover, button:focus { background-color: #e63900; }
 /* line 59, ../scss/style.scss */
