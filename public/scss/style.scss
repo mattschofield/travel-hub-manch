@@ -198,17 +198,21 @@ button {
         margin: 10px;
         padding-top: 5px;
         padding-bottom: 5px;
+        position:relative;
       }
     }
 
     span {
-      font-family: sans-serif;
+      font-family: monospace;
     }
     .routeName {
-      font-size: 22px; 
+      font-size: 28px; 
+      color: #FF9900;
+      margin-right: 50px;
     }
-    .expectedIn {
-
+    .expectedTime {
+      font-size: 26px;
+      color:#555;
     }
     .depTime {
 
