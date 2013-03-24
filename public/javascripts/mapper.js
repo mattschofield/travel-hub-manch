@@ -8,6 +8,7 @@ $(document).ready(function(){
   var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
   var app = {
     map: map,
+    stops: [],
     markers: [],
     polys: []
   }
@@ -26,23 +27,20 @@ $(document).ready(function(){
       .find('option')
       .remove()
       .end()
-    $.get("http://localhost:3000/stops/"+$(this).val())
-    .done(function(data) {
-      data.forEach(function(stop,i,arr) {
+    
+    for (var i = 0; i < app.stops.length; i++){
+      if (app.stops[i].route == $(this).val()){
+      var stop = app.stops[i]
         $(".stop-finder")
         .append($("<option />")
         .val(stop.AtcoCode)
-        .text(stop.CommonName));
-      })
-    });
+        .text(stop.title));
+      }
+    }
   });
 
   $(".stop-finder").change(function(evt) {
-    $(".approaching-buses").addClass("active");
-
-    // animate current marker
-    // get stuff from bobop API
-    // populate .approaching-buses
+    activateDepartureBoard(evt, null, app);
   })
 
   var socket = io.connect('http://localhost');
@@ -54,6 +52,24 @@ $(document).ready(function(){
   })
   draw(app);
 });
+
+function activateDepartureBoard(evt, stop, app){
+  stopCode = (stop == null) ? $(evt.target).val() : stop;
+  console.log(stopCode);
+  $(".approaching-buses").addClass("active");
+    for (var i = 0; i < app.stops.length; i++){
+      if (app.stops[i].atcoCode == stopCode){
+        var stop = app.stops[i];
+        stop.setAnimation(google.maps.Animation.BOUNCE);
+        app.map.panTo(stop.getPosition());
+        app.map.setZoom(16);
+        app.map.panBy(0, 200);
+        break;
+      }
+    }
+    // get stuff from bobop API
+    // populate .approaching-buses
+}
 
 var polys = {
 21916:[],
@@ -244,7 +260,12 @@ function clear(app){
   for (var i = 0; i < app.polys.length; i++){
     app.polys[i].setMap(null);
   }
-  app.markers = app.polys = [];
+  for (var i = 0; i < app.stops.length; i++){
+    app.stops[i].setMap(null);
+  }
+  app.markers = [];
+  app.polys = [];
+  app.stops = [];
 }
 
 function drawBuses(app){
@@ -281,26 +302,15 @@ function drawStops(app){
               icon: "http://localhost:3000/images/"+colour+"/bus.png",
               position: new google.maps.LatLng(stop.Latitude, stop.Longitude),
               map: app.map,
-              title: stop.CommonName
+              title: stop.CommonName,
+              atcoCode: stop.AtcoCode,
+              route: ci+1
         })
-        app.markers.push(stopMarker);
-        
-        var stopInfoOptions = {content:"<div><ul>"};
-        
-        // $.get("http://localhost:3000/stopTimes/"+stop.AtcoCode)
-        //   .done(function(data) {
-        //     data.forEach(function(stopTime,sti,stopTimes) {
-        //       stopInfoOptions.content += "<li>"+stopTime.routeName+" expected "+stopTime.expectedIn+"</li>";
-        //     })
-        //     stopInfoOptions.content += "</ul></div>";
-        //   });
-        
-        var stopInfoWindow = new google.maps.InfoWindow(stopInfoOptions);
+        app.stops.push(stopMarker);
+       
         google.maps.event.addListener(stopMarker, 'click', function(evt){
-          stopInfoWindow.open(app.map, stopMarker);
-        });
-        google.maps.event.addListener(stopMarker, 'mouseout', function(evt){
-          stopInfoWindow.close()
+          //stopInfoWindow.open(app.map, stopMarker);
+          activateDepartureBoard(null, stop.AtcoCode, app);
         });
       })
     })
