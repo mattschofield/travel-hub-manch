@@ -46,12 +46,17 @@ $(document).ready(function(){
 
   stopFinder.change(function(evt) {
     busDepartures(evt, null, app);
+    $(".buses-listing > ul")
+               .find('li')
+               .remove()
+               .end()
 
     $.get("http://localhost:3000/stopTimes/"+$(evt.target).val())
     .done(function(data) {
       console.log(data);
       data.forEach(function(stopTime,sti,stopTimes) {
-        $(".buses-listing > ul").append($('<li />')
+        $(".buses-listing > ul")
+               .append($('<li />')
                .append($('<span />')
                .addClass("routeName")
                .text(stopTime.routeName))
@@ -432,7 +437,7 @@ function drawCarparks(app){
         });
         
         google.maps.event.addListener(cpPoly, 'mouseout', function(evt){
-          cpInfoWindow.close()
+          setTimeout(function(){cpInfoWindow.close()}, 1000);
         });
         
       })
