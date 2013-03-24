@@ -88,10 +88,10 @@ function busDepartures(evt, stop, app){
 }
 
 function trainDepartures(evt, station, app){
-  chosenStopCode = station || $(evt.target).val();
+  chosenStation = station || $(evt.target).val();
   target = {
-    title: "Trains from " + app.stops[chosenStopCode].title,
-    marker: app.stops[chosenStopCode]
+    title: "Trains from " + app.stations[chosenStopCode].title,
+    marker: app.stations[chosenStopCode]
   }
   renderDepartureBoard(target, app);
 }
@@ -351,7 +351,10 @@ function drawTrainStations(app){
         map: app.map,
         title: stations[stationCode].commonName
       })
-      app.stations[stationCode] = trainStationMarker;  
+      app.stations[stationCode] = trainStationMarker;
+      google.maps.event.addListener(trainStationMarker, 'click', function(evt){
+        trainDepartures(null, stationCode, app);
+      });  
   }
                   
   
